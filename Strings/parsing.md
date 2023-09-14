@@ -158,3 +158,54 @@
 
 
 
+**[71. Simplify Path](https://leetcode.com/problems/simplify-path/description/)**
+
+<details>
+  <summary>Solution</summary>
+
+  ```cpp
+string simplifyPath(string path) {
+    string simplified;
+
+    // Store nodes
+    vector<string> nodes;
+
+    // Construct stringstream from absolute path
+    stringstream ss(path);
+    string node;
+
+    // Parse stream node-by-node until end-of-stream
+    while (getline(ss, node, '/')) {
+        // Handle no-ops
+        if (node.empty() || node == "." || (node == ".." && nodes.empty())) {
+            continue;
+        }
+
+        // Handle going up a directory
+        if (node == "..") {
+            nodes.pop_back();
+        // Handle normal node
+        } else {
+            nodes.push_back(node);
+        }
+    }
+
+    // Construct canonical path
+    for (string& n : nodes) {
+        simplified += "/" + n;
+    }
+
+    // Handle empty paths
+    return simplified.empty() ? "/" : simplified;
+}
+
+/*
+	Time: O(N)
+	Space: O(N)
+*/
+  ```
+
+</details>
+
+
+
